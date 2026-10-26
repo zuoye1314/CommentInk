@@ -1,0 +1,218 @@
+{
+  "name": "comment-preview-probe",
+  "displayName": "CommentInk",
+  "description": "Graphical formulas and diagrams stored in source comments, with inline previews.",
+  "publisher": "zuoye",
+  "version": "0.0.11",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.142.0"
+  },
+  "main": "./extension.cjs",
+  "activationEvents": [
+    "onWebviewPanel:commentStudio.editor",
+    "onStartupFinished"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "commentStudio.help",
+        "title": "使用指南",
+        "category": "CommentInk"
+      },
+      {
+        "command": "commentStudio.show",
+        "title": "显示当前文件原位预览",
+        "category": "CommentInk"
+      },
+      {
+        "command": "commentStudio.demo",
+        "title": "打开示例",
+        "category": "CommentInk"
+      },
+      {
+        "command": "commentStudio.source",
+        "title": "查看当前窗口源码",
+        "category": "CommentInk"
+      },
+      {
+        "command": "commentStudio.newFormula",
+        "title": "插入公式",
+        "category": "CommentInk",
+        "enablement": "!editorReadonly"
+      },
+      {
+        "command": "commentStudio.newDiagram",
+        "title": "绘制图表",
+        "category": "CommentInk",
+        "enablement": "!editorReadonly"
+      },
+      {
+        "command": "commentStudio.edit",
+        "title": "编辑光标处的公式或图表",
+        "category": "CommentInk",
+        "enablement": "!editorReadonly"
+      },
+      {
+        "command": "commentStudio.compact",
+        "title": "压缩源码并补足预览空间",
+        "category": "CommentInk",
+        "enablement": "!editorReadonly"
+      },
+      {
+        "command": "commentPreviewProbe.show",
+        "title": "Probe: Show 180px Comment Image"
+      },
+      {
+        "command": "commentPreviewProbe.clear",
+        "title": "Probe: Clear Comment Image"
+      },
+      {
+        "command": "commentPreviewProbe.blockWhole",
+        "title": "Probe: Show Image Inside Existing Comment Block"
+      },
+      {
+        "command": "commentPreviewProbe.blockTiles",
+        "title": "Probe: Show Image Tiles Inside Existing Comment Block"
+      },
+      {
+        "command": "commentPreviewProbe.blockClear",
+        "title": "Probe: Reveal Comment Block Source"
+      },
+      {
+        "command": "commentPreviewProbe.formulaOpen",
+        "title": "公式原型：打开文字与公式样例"
+      },
+      {
+        "command": "commentPreviewProbe.formulaShow",
+        "title": "公式原型：显示公式预览"
+      },
+      {
+        "command": "commentPreviewProbe.formulaSource",
+        "title": "公式原型：展开公式源码"
+      },
+      {
+        "command": "commentPreviewProbe.formulaInsert",
+        "title": "公式原型：插入公式示例"
+      },
+      {
+        "command": "commentPreviewProbe.formulaFormat",
+        "title": "公式原型：整理公式源码并预览（可撤销）"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "commentPreviewProbe.show",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.clear",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.blockWhole",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.blockTiles",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.blockClear",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.formulaOpen",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.formulaShow",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.formulaSource",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.formulaInsert",
+          "when": "false"
+        },
+        {
+          "command": "commentPreviewProbe.formulaFormat",
+          "when": "false"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "commentStudio.context",
+          "when": "resourceLangId in commentStudio.languages",
+          "group": "1_modification@15"
+        }
+      ],
+      "commentStudio.context": [
+        {
+          "command": "commentStudio.newFormula",
+          "group": "1_create@1"
+        },
+        {
+          "command": "commentStudio.newDiagram",
+          "group": "1_create@2"
+        },
+        {
+          "command": "commentStudio.edit",
+          "group": "2_edit@1"
+        },
+        {
+          "command": "commentStudio.compact",
+          "group": "2_edit@2"
+        },
+        {
+          "command": "commentStudio.show",
+          "group": "3_view@1"
+        },
+        {
+          "command": "commentStudio.source",
+          "group": "3_view@2"
+        },
+        {
+          "command": "commentStudio.help",
+          "group": "4_help@1"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "commentStudio.context",
+        "label": "CommentInk"
+      }
+    ]
+  },
+  "dependencies": {
+    "@lezer/javascript": "1.5.6",
+    "@lezer/python": "1.1.19",
+    "@mathjax/mathjax-tex-font": "4.1.3",
+    "@mathjax/src": "4.1.3",
+    "jsonc-parser": "3.3.1",
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
+  },
+  "icon": "media/icon.png",
+  "scripts": {
+    "test": "node --test formula-model.spec.cjs studio/studio.spec.cjs studio/compact.spec.cjs studio/geometry.spec.cjs studio/preview-navigation.spec.cjs",
+    "test:languages": "node --test studio/languages.spec.cjs studio/markers.spec.cjs",
+    "package": "python3 scripts/package-release.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zuoye1314/CommentInk.git"
+  },
+  "homepage": "https://github.com/zuoye1314/CommentInk#readme",
+  "bugs": {
+    "url": "https://github.com/zuoye1314/CommentInk/issues"
+  }
+}

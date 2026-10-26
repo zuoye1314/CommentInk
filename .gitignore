@@ -1,0 +1,11 @@
+node_modules/
+dist/
+results*/
+*.vsix
+*.log
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+.DS_Store
